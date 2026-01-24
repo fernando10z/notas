@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Una nota para ti</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #fdf6f0 0%, #fef9f3 50%, #fff5f5 100%);
+      font-family: 'Georgia', serif;
+      padding: 20px;
+    }
+
+    .note-container {
+      max-width: 420px;
+      width: 100%;
+      animation: fadeIn 1.2s ease-out;
+    }
+
+    .note {
+      background: white;
+      border-radius: 4px;
+      padding: 48px 40px;
+      box-shadow: 
+        0 1px 3px rgba(0,0,0,0.04),
+        0 8px 40px rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .note::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #e8b4b8, #f4c2c2, #e8b4b8);
+    }
+
+    .date {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #b8a9a9;
+      margin-bottom: 32px;
+    }
+
+    .greeting {
+      font-size: 14px;
+      color: #c9a7a7;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+
+    .message {
+      font-size: 20px;
+      line-height: 1.7;
+      color: #4a4a4a;
+      margin-bottom: 32px;
+      font-weight: 400;
+    }
+
+    .highlight {
+      color: #d4a5a5;
+      font-style: italic;
+    }
+
+    .signature {
+      text-align: right;
+      font-style: italic;
+      color: #9a8a8a;
+      font-size: 15px;
+    }
+
+    .heart {
+      display: inline-block;
+      color: #e8b4b8;
+      animation: pulse 2s ease-in-out infinite;
+      margin-left: 4px;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 12px;
+      color: #c9b8b8;
+      letter-spacing: 1px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+  </style>
+</head>
+<body>
+  <div class="note-container">
+    <div class="note">
+      <div class="date">Sabado, 24 de Enero</div>
+      
+      <div class="greeting">Para ti, antes de empezar tu día...</div>
+      
+      <div class="message">
+        Que cada paso que des hoy esté lleno de <span class="highlight">luz</span>. 
+        Confía en ti, porque yo lo hago siempre. 
+        SUERTE EN EL TRABAJO MI VIDA A DARLE CON TODOOOOOOOOO.
+        <br><br>
+        Ve y brilla.
+      </div>
+      
+      <div class="signature">
+        Con todo mi amor para TU amorshito <span class="heart">♥</span>
+      </div>
+    </div>
+    
+    <div class="footer-note">~ ábrelo cada vez que necesites recordarlo ~</div>
+  </div>
+</body>
+</html>
