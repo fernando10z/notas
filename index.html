@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Una nota para ti</title>
+  <title>Mis cartas para ti</title>
   <style>
     * {
       margin: 0;
@@ -18,57 +18,168 @@
       justify-content: center;
       background: linear-gradient(135deg, #fdf6f0 0%, #fef9f3 50%, #fff5f5 100%);
       font-family: 'Georgia', serif;
-      padding: 20px;
+      padding: 30px 20px;
     }
 
-    .note-container {
-      max-width: 420px;
-      width: 100%;
-      animation: fadeIn 1.2s ease-out;
+    .cards-container {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 900px;
     }
 
-    .note {
-      background: white;
-      border-radius: 4px;
-      padding: 48px 40px;
-      box-shadow: 
-        0 1px 3px rgba(0,0,0,0.04),
-        0 8px 40px rgba(0,0,0,0.06);
+    .card-wrapper {
+      perspective: 1000px;
+      width: 280px;
+    }
+
+    .card {
       position: relative;
-      overflow: hidden;
+      width: 100%;
+      height: 160px;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), height 0.5s ease;
     }
 
-    .note::before {
+    .card.open {
+      transform: rotateX(180deg);
+      height: auto;
+      min-height: 320px;
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .card-front {
+      background: white;
+      height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: 1px solid #f0e6e6;
+    }
+
+    .card-front::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #e8b4b8, #f4c2c2, #e8b4b8);
+      height: 4px;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .card:nth-child(1) .card-front::before {
+      background: linear-gradient(90deg, #e8b4b8, #f4c2c2);
+    }
+
+    .card:nth-child(2) .card-front::before {
+      background: linear-gradient(90deg, #b8d4e8, #c2e0f4);
+    }
+
+    .envelope-icon {
+      font-size: 36px;
+      opacity: 0.8;
+    }
+
+    .card-title {
+      font-size: 13px;
+      color: #8a7a7a;
+      text-align: center;
+      padding: 0 20px;
+      font-style: italic;
+    }
+
+    .tap-hint {
+      font-size: 10px;
+      color: #c0b0b0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 8px;
+    }
+
+    .card-back {
+      background: white;
+      transform: rotateX(180deg);
+      padding: 32px 28px;
+      min-height: 320px;
+    }
+
+    .card-back::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .card:nth-child(1) .card-back::before {
+      background: linear-gradient(90deg, #e8b4b8, #f4c2c2);
+    }
+
+    .card:nth-child(2) .card-back::before {
+      background: linear-gradient(90deg, #b8d4e8, #c2e0f4);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: #f5f0f0;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 12px;
+      color: #999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .close-btn:hover {
+      background: #ebe4e4;
     }
 
     .date {
-      font-size: 11px;
+      font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 2px;
       color: #b8a9a9;
-      margin-bottom: 32px;
+      margin-bottom: 20px;
     }
 
     .greeting {
-      font-size: 14px;
+      font-size: 13px;
       color: #c9a7a7;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       font-style: italic;
     }
 
     .message {
-      font-size: 20px;
+      font-size: 16px;
       line-height: 1.7;
       color: #4a4a4a;
-      margin-bottom: 32px;
-      font-weight: 400;
+      margin-bottom: 24px;
+    }
+
+    .message-aniversario {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #4a4a4a;
     }
 
     .highlight {
@@ -80,62 +191,104 @@
       text-align: right;
       font-style: italic;
       color: #9a8a8a;
-      font-size: 15px;
+      font-size: 14px;
+      margin-top: 20px;
     }
 
     .heart {
       display: inline-block;
       color: #e8b4b8;
       animation: pulse 2s ease-in-out infinite;
-      margin-left: 4px;
-    }
-
-    .footer-note {
-      text-align: center;
-      margin-top: 24px;
-      font-size: 12px;
-      color: #c9b8b8;
-      letter-spacing: 1px;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
 
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.15); }
+      50% { transform: scale(1.2); }
+    }
+
+    .page-title {
+      text-align: center;
+      width: 100%;
+      margin-bottom: 32px;
+      color: #8a7a7a;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .main-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   </style>
 </head>
 <body>
-  <div class="note-container">
-    <div class="note">
-      <div class="date">Sabado, 24 de Enero</div>
-      
-      <div class="greeting">Para ti, antes de empezar tu día...</div>
-      
-      <div class="message">
-        Que cada paso que des hoy esté lleno de <span class="highlight">luz</span>. 
-        Confía en ti, porque yo lo hago siempre. 
-        SUERTE EN EL TRABAJO MI VIDA A DARLE CON TODOOOOOOOOO.
-        <br><br>
-        Ve y brilla.
+  <div class="main-wrapper">
+    <div class="page-title">~ Mis cartas para ti ~</div>
+    
+    <div class="cards-container">
+      <!-- Carta 1: Buena suerte -->
+      <div class="card-wrapper">
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-front">
+            <div class="envelope-icon">💌</div>
+            <div class="card-title">Para que empieces bien tu día</div>
+            <div class="tap-hint">toca para abrir</div>
+          </div>
+          <div class="card-back">
+            <button class="close-btn" onclick="event.stopPropagation(); closeCard(this)">✕</button>
+            <div class="date">Para ti</div>
+            <div class="greeting">Antes de empezar tu día...</div>
+            <div class="message">
+              Que cada paso que des hoy esté lleno de <span class="highlight">luz</span>. 
+              Confía en ti, porque yo lo hago siempre. 
+              El mundo tiene suerte de tenerte.
+              <br><br>
+              Ve y brilla.
+            </div>
+            <div class="signature">Con todo mi amor <span class="heart">♥</span></div>
+          </div>
+        </div>
       </div>
-      
-      <div class="signature">
-        Con todo mi amor para TU amorshito <span class="heart">♥</span>
+
+      <!-- Carta 2: Aniversario -->
+      <div class="card-wrapper">
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-front">
+            <div class="envelope-icon">💝</div>
+            <div class="card-title">Para el amor de mi vida</div>
+            <div class="tap-hint">toca para abrir</div>
+          </div>
+          <div class="card-back">
+            <button class="close-btn" onclick="event.stopPropagation(); closeCard(this)">✕</button>
+            <div class="date">Feliz Aniversario</div>
+            <div class="greeting">Mi amor hermoso...</div>
+            <div class="message-aniversario">
+              ¡FELIZ ANIVERSARIO AMORSHITO MIO HERMOSA! 
+              <br><br>
+              TE AMOO MUCHOOO MUCHOTEEE <span class="heart">♥</span>
+              <br><br>
+              Hoy vas a venir y estoy muy emocionado. Espero que la pasemos muy muy bien en estos paseitos que vamos a tener juntos.
+            </div>
+            <div class="signature">Tu persona favorita <span class="heart">♥</span></div>
+          </div>
+        </div>
       </div>
     </div>
-    
-    <div class="footer-note">~ ábrelo cada vez que necesites recordarlo ~</div>
   </div>
+
+  <script>
+    function toggleCard(card) {
+      if (!card.classList.contains('open')) {
+        document.querySelectorAll('.card.open').forEach(c => c.classList.remove('open'));
+        card.classList.add('open');
+      }
+    }
+
+    function closeCard(btn) {
+      btn.closest('.card').classList.remove('open');
+    }
+  </script>
 </body>
 </html>
